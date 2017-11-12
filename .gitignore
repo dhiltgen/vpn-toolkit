@@ -1,0 +1,5 @@
+.env
+env
+.*.sed
+*.pem
+*-distrib.tgz

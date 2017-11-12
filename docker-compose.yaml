@@ -1,0 +1,29 @@
+version: "3.0"
+
+services:
+    vpn:
+        environment:
+            - TAG
+        build:
+            context: .
+            dockerfile: ./Dockerfile.vpn.debian
+            args:
+                - VPN_BASE
+        image: dhiltgen/vpn-toolkit:${TAG}
+        volumes:
+            - ./ipsec.conf:/etc/ipsec.conf
+            - ./ipsec.secrets:/etc/ipsec.secrets
+            - ./ca.pem:/etc/ipsec.d/cacerts/ca.pem
+            - ./left-key.pem:/etc/ipsec.d/private/left-key.pem
+            - ./right.pem:/etc/ipsec.d/certs/right.pem
+            - ./left.pem:/etc/ipsec.d/certs/left.pem
+        privileged: true
+        network_mode: "host"
+        cap_add:
+            - NET_ADMIN
+            - NET_RAW
+        restart: unless-stopped
+        ports:
+         - "500:500/udp"
+         - "4500:4500/udp"
+         - "1701:1701/udp"

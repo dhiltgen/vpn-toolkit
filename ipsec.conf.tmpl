@@ -1,0 +1,25 @@
+conn base
+    ikelifetime=60m
+    keylife=20m
+    rekeymargin=3m
+    keyingtries=1
+
+ca vpn
+    cacert=ca.pem
+
+conn net-to-net
+    also=base
+    compress=yes
+    left=%any
+    leftid=%%LEFT_NAME%%
+    leftsubnet=%%LEFT_CIDR%%
+    leftauth=pubkey
+    leftcert=left.pem
+    leftfirewall=yes
+    rightid=%%RIGHT_NAME%%
+    right=%%RIGHT_PUB%%
+    rightsubnet=%%RIGHT_CIDR%%
+    rightauth=pubkey
+    rightcert=right.pem
+    auto=start
+    type=tunnel

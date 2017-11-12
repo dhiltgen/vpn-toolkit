@@ -1,0 +1,20 @@
+ARG VPN_BASE
+FROM ${VPN_BASE}
+
+RUN apt-get update &&  apt-get install -y strongswan iptables
+
+# Config - /etc/ipsec.conf
+# Config - /etc/strongswan.d/swanctl.conf
+# Reload - exec "ipsec update"
+#
+# Troublshooting
+# ip xfrm state
+# ip xfrm policy
+
+EXPOSE 500/udp
+EXPOSE 4500/udp
+EXPOSE 1701/udp
+
+# HEALTHCHECK CMD ipsec status
+
+CMD [ "/usr/sbin/ipsec", "start", "--nofork" ]
